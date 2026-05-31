@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Pessoas Cadastradas</title>
+<link rel="stylesheet" href="style.css">
+<link
+rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+/>
+</head>
+<body>
+
+<div class="sidebar">
+    <h2>Sistema</h2>
+
+    <a href="dashboard.html">Tela Inicial</a>
+    <a href="pessoas.html">Cadastros</a>
+    <a href="funcoes.html">Funções</a>
+    <a href="/logout">Sair</a>
+    
+</div>
+
+<div class="content">
+
+    <div class="topo">
+        <h1>Pessoas Cadastradas</h1>
+
+        <a href="cadastrar.html" class="btn-novo">
+            Novo Cadastro
+        </a>
+    </div>
+
+    <input
+        type="text"
+        id="pesquisa"
+        placeholder="Pesquisar por nome..."
+    >
+
+    <table>
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>CPF</th>
+                <th>Função</th>
+                <th>Nascimento</th>
+                <th>Email</th>
+                <th>Telefone</th>
+                <th>Ações</th>
+            </tr>
+    </thead>
+
+        <tbody id="tabelaPessoas">
+
+        </tbody>
+    </table>
+
+</div>
+
+<script>
+
+async function carregarPessoas(nome = "") {
+
+    const response = await fetch(`/pessoas?nome=${nome}`);
+
+    const pessoas = await response.json();
+
+    const tabela = document.getElementById("tabelaPessoas");
+
+    tabela.innerHTML = "";
+
+    pessoas.forEach(pessoa => {
+
+        tabela.innerHTML += `
+            <tr>
+                <td>${pessoa.nome}</td>
+                <td>${pessoa.cpf}</td>
+                <td>${pessoa.funcao}</td>
+                <td>${pessoa.nascimento}</td>
+                <td>${pessoa.email}</td>
+                <td>${pessoa.telefone}</td>
+                <td>
+                    <div class="acoes">
+                        <a
+                            href="visualizar.html?id=${pessoa.id}"
+                            class="btn-acao visualizar"
+                            title="Visualizar"
+                        >
+                            <i class="fa-solid fa-eye"></i>
+                        </a>
+                        <a
+                            href="editar.html?id=${pessoa.id}"
+                            class="btn-acao editar"
+                            title="Editar"
+                        >
+                            <i class="fa-solid fa-pen"></i>
+                        </a>
+
+                        <form
+                            action="/excluir/${pessoa.id}"
+                            method="POST"
+                            class="form-excluir"
+                            onsubmit="return confirm('Deseja realmente excluir este cadastro?')"
+                        >
+
+                            <button
+                                type="submit"
+                                class="btn-acao excluir"
+                                title="Excluir"
+                            >
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+        `;
+    });
+}
+
+document.getElementById("pesquisa")
+.addEventListener("keyup", (e) => {
+
+    carregarPessoas(e.target.value);
+});
+
+carregarPessoas();
+
+</script>
+
+</body>
+</html>

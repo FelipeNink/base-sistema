@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Visualizar Cadastro</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="sidebar">
+
+        <h2>Sistema</h2>
+
+        <a href="dashboard.html">
+            Tela Inicial
+        </a>
+
+        <a href="pessoas.html">
+            Cadastros
+        </a>
+
+        <a href="funcoes.html">
+            Funções
+        </a>
+
+        <a href="/logout">
+            Sair
+        </a>
+
+    </div>
+<div class="content">
+
+    <h1>Visualizar Cadastro</h1>
+
+    <div class="box" id="dados"></div>
+
+    <br>
+
+    <a href="pessoas.html">
+        <button>Voltar</button>
+    </a>
+
+</div>
+
+<script>
+
+const params = new URLSearchParams(window.location.search);
+
+const id = params.get("id");
+
+async function carregar() {
+
+    const response = await fetch(`/pessoa/${id}`);
+
+    const pessoa = await response.json();
+
+    document.getElementById("dados").innerHTML = `
+        <p><strong>Nome:</strong> ${pessoa.nome}</p>
+        <p><strong>CPF:</strong> ${pessoa.cpf}</p>
+        <p><strong>Função:</strong> ${pessoa.funcao}</p>
+        <p><strong>Nascimento:</strong> ${pessoa.nascimento}</p>
+        <p><strong>Email:</strong> ${pessoa.email}</p>
+        <p><strong>Telefone:</strong> ${pessoa.telefone}</p>
+        <p><strong>Endereço:</strong> ${pessoa.endereco}</p>
+        <p>
+
+            <strong>Arquivo:</strong>
+
+            <a
+                id="arquivo"
+                target="_blank"
+            >
+                Visualizar Arquivo
+            </a>
+
+        </p>
+        `;
+        if (pessoa.arquivo) {
+
+            const link = document.getElementById("arquivo");
+
+            link.href = `/uploads/${pessoa.arquivo}`;
+
+        } else {
+
+            document.getElementById("arquivo")
+            .textContent = "Nenhum arquivo anexado";
+        }
+}
+
+carregar();
+
+</script>
+
+</body>
+</html>

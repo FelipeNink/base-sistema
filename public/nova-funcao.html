@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+
+<meta charset="UTF-8">
+
+<title>Nova Função</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+    <div class="sidebar">
+    <h2>Sistema</h2>
+
+    <a href="dashboard.html">Tela Inicial</a>
+    <a href="pessoas.html">Cadastros</a>
+    <a href="funcoes.html">Funções</a>
+    <a href="/logout">Sair</a>
+    
+</div>
+
+<div class="content">
+
+    <h1>Nova Função</h1>
+
+    <form
+        class="formulario"
+        action="/funcoes"
+        method="POST"
+    >
+
+        <input
+            type="text"
+            name="nome"
+            placeholder="Nome da função"
+            required
+        >
+
+        <div class="acoes-formulario">
+
+            <button type="submit">
+                Criar Função
+            </button>
+
+            <a
+                href="funcoes.html"
+                class="btn-voltar"
+            >
+                Voltar
+            </a>
+
+        </div>
+        
+    </form>
+
+
+</div>
+
+</body>
+</html>

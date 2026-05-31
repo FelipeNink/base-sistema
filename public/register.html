@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Criar Usuário</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <div class="card">
+        <h1>Criar Usuário</h1>
+
+        <form action="/register" method="POST">
+            <input type="text" name="username" placeholder="Novo usuário" required>
+            <input type="password" name="password" placeholder="Nova senha" required>
+
+            <button type="submit">Cadastrar</button>
+        </form>
+
+        <div style="text-align:center;">
+            <a href="index.html">
+                <button type="button">Voltar para Login</button>
+            </a>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

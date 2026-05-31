@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Editar Cadastro</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="sidebar">
+
+        <h2>Sistema</h2>
+
+        <a href="dashboard.html">
+            Tela Inicial
+        </a>
+
+        <a href="pessoas.html">
+            Cadastros
+        </a>
+
+        <a href="funcoes.html">
+            Funções
+        </a>
+
+        <a href="/logout">
+            Sair
+        </a>
+
+    </div>
+
+<div class="content">
+
+    <h1>Editar Cadastro</h1>
+
+    <form id="formulario" class="formulario" method="POST" enctype="multipart/form-data">
+
+        <input type="text" name="nome" id="nome" required>
+        <input type="text" name="cpf" id="cpf" required>
+        <select
+                name="funcao"
+                id="funcao"
+                required
+        >
+                <option value="">
+                    Selecione uma função
+                </option>
+        </select>
+        <input type="date" name="nascimento" id="nascimento" required>
+        <input type="email" name="email" id="email" required>
+        <input type="text" name="telefone" id="telefone" required>
+        <input type="text" name="endereco" id="endereco" required>
+
+        <div class="arquivo-atual">
+
+            <strong>Arquivo Atual:</strong>
+
+            <a
+                id="arquivoAtual"
+                target="_blank"
+            >
+                Visualizar Arquivo
+            </a>
+
+        </div>
+        <input
+            type="file"
+            name="arquivo"
+        >
+        <button type="submit">
+            Salvar Alterações
+        </button>
+
+        <a href="pessoas.html">
+            <button type="button">
+                Voltar
+            </button>
+        </a>
+
+    </form>
+
+</div>
+
+<script>
+
+document.addEventListener("DOMContentLoaded", async () => {
+
+    const params = new URLSearchParams(window.location.search);
+
+    const id = params.get("id");
+
+    document.getElementById("formulario")
+    .action = `/editar/${id}`;
+
+    const responsePessoa = await fetch(`/pessoa/${id}`);
+
+    const pessoa = await responsePessoa.json();
+
+    const responseFuncoes = await fetch("/funcoes");
+
+    const funcoes = await responseFuncoes.json();
+
+    const select = document.getElementById("funcao");
+
+    funcoes.forEach(funcao => {
+
+        const option = document.createElement("option");
+
+        option.value = funcao.nome;
+
+        option.textContent = funcao.nome;
+
+        select.appendChild(option);
+    });
+
+    select.value = pessoa.funcao;
+
+    document.getElementById("nome").value = pessoa.nome;
+
+    document.getElementById("cpf").value = pessoa.cpf;
+
+    document.getElementById("nascimento").value = pessoa.nascimento;
+
+    document.getElementById("email").value = pessoa.email;
+
+    document.getElementById("telefone").value = pessoa.telefone;
+
+    document.getElementById("endereco").value = pessoa.endereco;
+    if (pessoa.arquivo) {
+
+        const link = document.getElementById("arquivoAtual");
+
+        link.href = `/uploads/${pessoa.arquivo}`;
+
+    } else {
+
+        document.getElementById("arquivoAtual")
+        .textContent = "Nenhum arquivo anexado";
+    }
+
+});
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+
+<meta charset="UTF-8">
+
+<title>Pessoas da Função</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+    <div class="sidebar">
+
+        <h2>Sistema</h2>
+
+        <a href="dashboard.html">
+            Tela Inicial
+        </a>
+
+        <a href="pessoas.html">
+            Cadastros
+        </a>
+
+        <a href="funcoes.html">
+            Funções
+        </a>
+
+        <a href="/logout">
+            Sair
+        </a>
+
+    </div>
+
+<div class="content">
+
+    <h1>Pessoas da Função</h1>
+
+    <table>
+
+        <table>
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>CPF</th>
+                <th>Email</th>
+            </tr>
+    </thead>
+
+        <tbody id="tabela"></tbody>
+
+    </table>
+    <div class="rodape-funcao">
+
+    <a
+        href="funcoes.html"
+        class="btn-voltar"
+    >
+        Voltar
+    </a>
+
+</div>
+
+</div>
+
+<script>
+
+const params = new URLSearchParams(window.location.search);
+
+const id = params.get("id");
+
+async function carregar() {
+
+    const response = await fetch(`/funcao/${id}/pessoas`);
+
+    const pessoas = await response.json();
+
+    const tabela = document.getElementById("tabela");
+
+    tabela.innerHTML = "";
+
+    pessoas.forEach(pessoa => {
+
+        tabela.innerHTML += `
+            <tr>
+
+                <td>${pessoa.nome}</td>
+
+                <td>${pessoa.cpf}</td>
+
+                <td>${pessoa.email}</td>
+
+            </tr>
+        `;
+    });
+}
+
+carregar();
+
+</script>
+
+</body>
+</html>

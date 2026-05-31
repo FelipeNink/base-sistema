@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+
+<meta charset="UTF-8">
+
+<title>Funções</title>
+
+<link rel="stylesheet" href="style.css">
+
+<link
+rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+/>
+
+</head>
+
+<body>
+
+<div class="sidebar">
+
+    <h2>Sistema</h2>
+
+    <a href="dashboard.html">
+        Tela Inicial
+    </a>
+
+    <a href="pessoas.html">
+        Cadastros
+    </a>
+
+    <a href="funcoes.html">
+        Funções
+    </a>
+
+    <a href="/logout">
+        Sair
+    </a>
+
+</div>
+
+<div class="content">
+
+    <div class="topo">
+
+        <h1>Funções</h1>
+
+        <a
+            href="nova-funcao.html"
+            class="btn-novo"
+        >
+            Nova Função
+        </a>
+
+    </div>
+
+    <div class="barra-pesquisa">
+
+        <div class="input-pesquisa">
+            <input
+                type="text"
+                id="pesquisa"
+                placeholder="Pesquisar função..."
+            >
+
+        </div>
+
+    </div>
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>Função</th>
+
+                <th>Total de Pessoas</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody id="tabelaFuncoes"></tbody>
+
+    </table>
+
+</div>
+
+<script>
+
+async function carregarFuncoes(nome = "") {
+
+    const response = await fetch(
+        `/funcoes?nome=${nome}`
+    );
+
+    const funcoes = await response.json();
+
+    const tabela = document.getElementById("tabelaFuncoes");
+
+    tabela.innerHTML = "";
+
+    funcoes.forEach(funcao => {
+
+        tabela.innerHTML += `
+
+            <tr onclick="window.location.href='funcao.html?id=${funcao.id}'"
+                class="linha-click">
+
+                <td>
+                    ${funcao.nome}
+                </td>
+
+                <td>
+                    ${funcao.total_pessoas}
+                </td>
+
+            </tr>
+
+        `;
+    });
+}
+
+document.getElementById("pesquisa")
+.addEventListener("keyup", (e) => {
+
+    carregarFuncoes(e.target.value);
+});
+
+carregarFuncoes();
+
+</script>
+
+</body>
+</html>
