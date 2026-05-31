@@ -1,4 +1,4 @@
-
+require("dotenv").config();
 const express = require("express");
 const multer = require("multer");
 const storage = multer.diskStorage({
@@ -43,11 +43,14 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+console.log("CLIENT ID =", process.env.GOOGLE_CLIENT_ID);
+console.log("CLIENT SECRET =", process.env.GOOGLE_CLIENT_SECRET ? "OK" : "UNDEFINED");
+
 passport.use(new GoogleStrategy({
 
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: "http://localhost:3000/auth/google/callback"
+    callbackURL: "https://base-sistema-production-e381.up.railway.app/auth/google/callback"
 
 },
 (accessToken, refreshToken, profile, done) => {
